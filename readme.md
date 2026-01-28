@@ -10,7 +10,7 @@ It also includes host linux library and application example.
 - This firmware is using vspa kernels from https://github.com/nxp-qoriq/la931x_vspa_common
 - This firmware can be used with LA9310 PCI driver located at https://github.com/nxp-qoriq/la93xx_host_sw
 - A default linux integration is provided for imx8mp platforms at https://github.com/nxp-real-time-edge-sw/yocto-real-time-edge/tree/la93xx
-- Linux VSPA tool chain (cwvspa.vbeta_14_00_781_vspa.linux.tgz) is freely available on nxp.com when downloading eval version of CodeWarrior for VSPA 10.3.0
+- Linux VSPA tool chain is freely availabel when downloading eval version of CodeWarrior for VSPA 10.3.0 or at https://www.nxp.com/lgfiles/sdk/la1224/imx-la9310-sdk-10/cwvspa.vbeta_14_00_781_vspa.linux.tgz 
 
 # Libraries
 
@@ -71,29 +71,20 @@ capture (repeat) in DDR buffer
 
 ## Usage - iq_app Tx use case 
 
- 1> load tx source large file
- 2> start tx app, passing offset and size in IQFLOOD for source large file and Tx FIFO
- 3> start VSPA tx on the 32KB FIFO
- 4> stop 
+ Default examples use 32KB TX FIFO in DDR  
 
 ```sh
-   bin2mem  -f ./tone_td_3p072Mhz_20ms_4KB1200_2c.bin -a 0x96500000
-   taskset 0x8 iq_app -t -a 0x00100000 4915200 -f 0x00000000 32768 &
-   ./iq-start-txfifo.sh 8
+   ./iq-app-tx.sh ./tone_td_3p072Mhz_20ms_4KB1200_2c.bin 
    ./iq-stop.sh
 ```
 
 ## Usage - iq_app Rx use case  
 
- 1> start rx app, passing offset in IQFLOOD for dest file and Rx FIFO
- 2> start VSPA rx on the 32KB FIFO
- 3> stop tx and rx
- 4> dump received file
+ Default examples use 128KB RX FIFO in DDR 
  
 ```sh
-   taskset 0x4 iq_app -r -c 0 -a 0x6900000 4915200 -f 0x6800000 32768 &
-   ./iq-start-rxfifo.sh 8
+   ./iq-app-rx.sh ./iq-data.bin
    ./iq-stop.sh
-   bin2mem -f iqdata.bin -a 0x9CD00000 -r 4915200
+   kill <iq_streamer PID>
 ```
 
