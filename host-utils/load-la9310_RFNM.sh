@@ -7,8 +7,8 @@
 scratch_addr=0x`hexdump -C /sys/firmware/devicetree/base/reserved-memory/la93@*/reg |cut -f 7-10 -d " " |sed 's/ //g'|cut -f 1 -d " " |head -1`
 scratch_size=0x`hexdump -C /sys/firmware/devicetree/base/reserved-memory/la93@*/reg |cut -f 16-19 -d " " |sed 's/ //g'|head -1`
 
-[ -f /lib/firmware/la9310_test.bin ] || { echo "***ERROR: missing /lib/firmware/la9310_test.bin. You are using old BSP, upgrade to BSP 0.4 or above, or rename la9310.bin to la9310_dfe.bin. Boot failed"; exit 1; }
-[ -f /lib/firmware/apm-iqplayer.eld ] || { echo "***ERROR: missing /lib/firmware/apm-iqplayer.eld. You are using old BSP, upgrade to BSP 0.4.3 or above, or rename la9310.bin to la9310_dfe.bin. Boot failed"; exit 1; }
+[ -f /lib/firmware/la9310_test.bin ] || { echo "***ERROR: missing /lib/firmware/la9310_test.bin. You are using old BSP, upgrade to BSP 0.4 or above, or rename la9310.bin to la9310_test.bin. Boot failed"; exit 1; }
+[ -f /lib/firmware/apm-iqplayer.eld ] || { echo "***ERROR: missing /lib/firmware/apm-iqplayer.eld. You are using old BSP, upgrade to BSP 0.4.3 or above, or rename la9310.bin to la9310_test.bin. Boot failed"; exit 1; }
 
 eld_md5sum="$(md5sum /lib/firmware/apm-iqplayer.eld | cut -f 1 -d " ")"
 iq_trace_version="$(iq_trace -v|cut -f 1 -d " ")"
